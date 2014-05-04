@@ -2,7 +2,8 @@
 # http://emberjs.com/guides/models/pushing-records-into-the-store/
 
 RssReader.Store = DS.Store.extend({
-
+  revision: 12
+  adapter: "DS.RESTAdapter"
 })
 
 # Override the default adapter with the `DS.ActiveModelAdapter` which
