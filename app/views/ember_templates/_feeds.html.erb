@@ -1,6 +1,7 @@
 <script type="text/x-handlebars" id="feeds">
-  <h1>This is the Feeds Index</h1>
+  <h2>Rss Feeds Reader</h1>
   <div class="row">
+
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
         <li><%= link_to 'Home', root_url %></li>
@@ -18,29 +19,41 @@
     <div class="col-md-10">
       {{outlet}}
     </div>
-  </div>
 
+  </div>
 </script>
 
 
 <script type="text/x-handlebars" id="feeds/index">
-feeds index
+  <h4>Please select/create a new Feed</h4>
+  <hr>
 </script>
 
 <script type="text/x-handlebars" id="feeds/show">
-{{id}}
-{{name}}
-{{url}}
+  <h4>{{name}}</h4>
+  {{#if isEditing}}
+    {{partial 'feed/edit'}}
+  {{else}}
+    <button {{action 'edit'}} class="btn btn-xs">Edit</button>
+    <button {{action 'delete'}} class="btn btn-xs">Delete</button>
+  {{/if}}
+  <hr>
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
-<h1>Enter a Rss Feed</h1>
+  {{partial 'feed/edit' }}
+</script>
+
+<script type="text/x-handlebars" id="feed/_edit">
+<h4>Enter a Rss Feed</h4>
+
 <label>Name</label>
   {{view Ember.TextField valueBinding="name"}}
 <label>Url</label>
   {{view Ember.TextField valueBinding="url"}}
 
-  <button {{action 'submit'}} class='btn btn-success'>Submit</button>
-  <button {{action 'cancel'}} class='btn btn-error'>Cancel</button>
+  <button {{action 'submit'}} class="btn btn-success">Submit</button>
+  <button {{action 'cancel'}} class="btn btn-error">Cancel</button>
 </script>
+
 
