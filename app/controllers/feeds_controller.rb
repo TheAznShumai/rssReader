@@ -21,8 +21,9 @@ class FeedsController < ApplicationController
     respond_with @feed
   end
 
-  def delete
+  def destroy
     @feed = Feed.destroy(params[:id])
+    respond_with @feed
   end
 
   private
