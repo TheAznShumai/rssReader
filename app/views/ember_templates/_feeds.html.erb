@@ -1,0 +1,35 @@
+<script type="text/x-handlebars" id="feeds">
+  <h1>This is the Feeds Index</h1>
+  {{view Ember.TextField valueBinding="newRssName"}}
+  {{view Ember.TextField valueBinding="newRssUrl"}}
+
+  {{newRssName}}<br/>
+  {{newRssUrl}}
+
+  <div class="row">
+    <div class="col-md-2">
+      <ul class="nav nav-pills nav-stacked">
+        <li><%= link_to 'Home', root_url %></li>
+        {{#each feed in filteredContent}}
+          <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="col-md-10">
+      {{outlet}}
+    </div>
+  </div>
+
+</script>
+
+
+<script type="text/x-handlebars" id="feeds/index">
+feeds index
+</script>
+
+<script type="text/x-handlebars" id="feeds/show">
+{{id}}
+{{name}}
+{{url}}
+</script>
