@@ -1,19 +1,18 @@
 <script type="text/x-handlebars" id="feeds">
   <h1>This is the Feeds Index</h1>
-  {{view Ember.TextField valueBinding="newRssName"}}
-  {{view Ember.TextField valueBinding="newRssUrl"}}
-
-  {{newRssName}}<br/>
-  {{newRssUrl}}
-
   <div class="row">
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
         <li><%= link_to 'Home', root_url %></li>
         {{#each feed in filteredContent}}
-          <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
+          {{#if feed.id}}
+            <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
+          {{else}}
+            <li>{{#link-to 'feeds.new'}}{{feed.name}}{{/link-to}}</li>
+          {{/if}}
         {{/each}}
       </ul>
+      {{link-to 'Add a New Feed' 'feeds.new' class="btn btn-primary"}}
     </div>
 
     <div class="col-md-10">
@@ -33,3 +32,15 @@ feeds index
 {{name}}
 {{url}}
 </script>
+
+<script type="text/x-handlebars" id="feeds/new">
+<h1>Enter a Rss Feed</h1>
+<label>Name</label>
+  {{view Ember.TextField valueBinding="name"}}
+<label>Url</label>
+  {{view Ember.TextField valueBinding="url"}}
+
+  <button {{action 'submit'}} class='btn btn-success'>Submit</button>
+  <button {{action 'cancel'}} class='btn btn-error'>Cancel</button>
+</script>
+
