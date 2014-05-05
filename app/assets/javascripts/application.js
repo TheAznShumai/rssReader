@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require FeedEk
+//= require moment-with-langs.min
 //= require_tree .
