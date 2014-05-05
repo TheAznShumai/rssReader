@@ -19,7 +19,6 @@
     <div class="col-md-10">
       {{outlet}}
     </div>
-
   </div>
 </script>
 
@@ -37,23 +36,30 @@
     <button {{action 'edit'}} class="btn btn-xs">Edit</button>
     <button {{action 'delete'}} class="btn btn-xs">Delete</button>
   {{/if}}
+  <button {{action 'loadRss'}} class="btn btn-xs">Reload Rss</button>
   <hr>
+  {{partial 'feed/showRss'}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
   {{partial 'feed/edit' }}
 </script>
 
-<script type="text/x-handlebars" id="feed/_edit">
-<h4>Enter a Rss Feed</h4>
+<%# Partials %>
 
-<label>Name</label>
-  {{view Ember.TextField valueBinding="name"}}
-<label>Url</label>
-  {{view Ember.TextField valueBinding="url"}}
+<script type="text/x-handlebars" id="feed/_edit">
+  <h4>Enter a Rss Feed</h4>
+
+  <label>Name</label>
+    {{view Ember.TextField valueBinding="name"}}
+  <label>Url</label>
+    {{view Ember.TextField valueBinding="url"}}
 
   <button {{action 'submit'}} class="btn btn-success">Submit</button>
   <button {{action 'cancel'}} class="btn btn-error">Cancel</button>
 </script>
 
+<script type="text/x-handlebars" id="feed/_showRss">
+  {{rssFeed}}
+</script>
 
