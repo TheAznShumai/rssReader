@@ -36,7 +36,7 @@
     <button {{action 'edit'}} class="btn btn-xs">Edit</button>
     <button {{action 'delete'}} class="btn btn-xs">Delete</button>
   {{/if}}
-  <button {{action 'loadRss'}} class="btn btn-xs">Reload Rss</button>
+  <button {{action 'loadRssFeed'}} class="btn btn-xs">Reload Rss</button>
   <hr>
   {{partial 'feed/showRss'}}
 </script>
@@ -60,6 +60,6 @@
 </script>
 
 <script type="text/x-handlebars" id="feed/_showRss">
-  {{rssFeed}}
+  <div id="divRss"></div>
 </script>
 

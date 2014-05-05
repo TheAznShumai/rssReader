@@ -25,7 +25,6 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
   isEditing: false
-  rssFeed: null
   actions:
     edit: ->
       @set('isEditing', true)
@@ -42,7 +41,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @get('model').save().then (->
           self.set('isEditing', false)
           self.transitionToRoute('feeds.show', self.get('model').id)
-          self.send('loadRss')
+          self.send('loadRssFeed')
         ), (error) ->
           @get('model').rollback()
           alert 'An Error Occured'
@@ -55,11 +54,9 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @transitionToRoute('feeds')
         @set('isEditing', false)
 
-    loadRss: ->
-      self = this
-      url = @get('url')
-      yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent('select * from xml where url="' + url + '"') + '&format=xml&callback=?';
-      $.getJSON yql, (data) ->
-        self.set('rssFeed', if data.results[0] then data.results[0] else null)
+    loadRssFeed: ->
+      $('#divRss').FeedEk(
+        FeedUrl : @get('url')
+      )
 )
 
