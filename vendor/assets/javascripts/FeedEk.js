@@ -18,7 +18,7 @@
         }, opt);
 
         var id = $(this).attr("id"), i, s = "",dt;
-        $("#" + id).empty().append('<img src="assets/loader.gif" />');
+        $("#" + id).empty().append('<i class="fa fa-spinner fa-spin" id="loader"></i>');
 
         $.ajax({
             url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + def.MaxCount + "&output=json&q=" + encodeURIComponent(def.FeedUrl) + "&hl=en&callback=?",
