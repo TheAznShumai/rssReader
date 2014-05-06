@@ -37,7 +37,7 @@
   {{/if}}
   <button {{action 'loadRssFeed'}} class="btn btn-xs">Reload Rss</button>
   <hr>
-  {{partial 'feed/showRss'}}
+  {{view RssReader.RssFeedView}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
@@ -56,9 +56,5 @@
 
   <button {{action 'submit'}} class="btn btn-success">Submit</button>
   <button {{action 'cancel'}} class="btn btn-error">Cancel</button>
-</script>
-
-<script type="text/x-handlebars" id="feed/_showRss">
-  <div id="divRss"></div>
 </script>
 
