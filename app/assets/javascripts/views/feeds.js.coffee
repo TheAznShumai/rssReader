@@ -1,5 +1,5 @@
 RssReader.RssFeedView = Ember.View.extend(
-  template: Ember.Handlebars.compile('<div id="divRss"></div>')
+  template: Ember.Handlebars.compile('<div class="container-fluid" id="divRss"></div>')
   init: (->
     Ember.run.later this, (->
       @get('controller').send('loadRssFeed')

@@ -51,7 +51,7 @@
                         }
                     }
                 });
-                $("#" + id).append('<ul class="feedEkList">' + s + "</ul>");
+                $("#" + id).append('<ul class="feedEkList list-unstyled">' + s + "</ul>");
                 }
                 else {
                   $("#" + id).append('<h4>No Feed Found.</h4>');
