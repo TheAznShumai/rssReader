@@ -33,7 +33,9 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
       if @get('model').get('isDirty')
         if confirm("You have unsaved changes. They will be lost if you continue!")
           @get('model').rollback()
-      @set('isEditing', false)
+          @set('isEditing', false)
+      else
+        @set('isEditing', false)
 
     submit: ->
       self = this
