@@ -36,6 +36,10 @@ end
 gem 'ember-rails'
 gem 'ember-source', '1.5.0' # or the version you need
 
+gem 'rails_12factor', group: :production
+
+gem 'puma'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
