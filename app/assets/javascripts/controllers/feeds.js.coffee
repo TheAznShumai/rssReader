@@ -46,6 +46,8 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
           @get('model').rollback()
           alert 'An Error Occured'
           console.log(error)
+      else
+        self.send('cancel')
 
     delete: ->
       if confirm("Are you sure you want to delete this feed?")
