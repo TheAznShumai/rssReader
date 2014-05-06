@@ -2,12 +2,12 @@ RssReader.RssFeedView = Ember.View.extend(
   template: Ember.Handlebars.compile('<div id="divRss"></div>')
   init: (->
     Ember.run.later this, (->
-      $('#divRss').FeedEk(FeedUrl : @get('controller.url'))
+      @get('controller').send('loadRssFeed')
     ), 100
   )
   urlDidChange: (->
     Ember.run.next this, ->
-      $('#divRss').FeedEk(FeedUrl : @get('controller.url'))
+      @get('controller').send('loadRssFeed')
   ).observes(null, 'controller.url')
 )
 
