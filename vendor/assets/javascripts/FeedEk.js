@@ -54,7 +54,7 @@
                 $("#" + id).append('<ul class="feedEkList list-unstyled">' + s + "</ul>");
                 }
                 else {
-                  $("#" + id).append('<h4>No Feed Found.</h4>');
+                  $("#" + id).append('<h4><i>No Feed Found for "' + def.FeedUrl + '".<i></h4>');
                 }
             }
         });
