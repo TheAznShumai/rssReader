@@ -4,7 +4,7 @@
 
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
-        <li><%= link_to 'Home', root_url %></li>
+        <li>{{#link-to 'feeds'}}Home{{/link-to}}</li>
         {{#each feed in filteredContent}}
           {{#if feed.id}}
             <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
