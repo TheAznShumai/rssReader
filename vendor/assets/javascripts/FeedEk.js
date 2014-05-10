@@ -25,7 +25,7 @@
             dataType: "json",
             success: function (data) {
                 $("#" + id).empty();
-                if (data.responseData != null) {
+                if (data.responseData !== null) {
                 $.each(data.responseData.feed.entries, function (e, item) {
                     s += '<li><div class="itemTitle"><a href="' + item.link + '" target="' + def.TitleLinkTarget + '" >' + item.title + "</a></div>";
 
@@ -36,7 +36,7 @@
                                 moment.lang(def.DateFormatLang);
                                 s += '<div class="itemDate">' + moment(dt).format(def.DateFormat) + "</div>";
                             }
-                            catch (e){s += '<div class="itemDate">' + dt.toLocaleDateString() + "</div>";}
+                            catch (event){s += '<div class="itemDate">' + dt.toLocaleDateString() + "</div>";}
                         }
                         else {
                             s += '<div class="itemDate">' + dt.toLocaleDateString() + "</div>";
