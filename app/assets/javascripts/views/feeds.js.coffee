@@ -5,9 +5,9 @@ RssReader.RssFeedView = Ember.View.extend(
       @get('controller').send('loadRssFeed')
     ), 100
   )
-  urlDidChange: (->
+  idDidChange: (->
     Ember.run.next this, ->
       @get('controller').send('loadRssFeed')
-  ).observes('controller.url')
+  ).observes('controller.id')
 )
 
