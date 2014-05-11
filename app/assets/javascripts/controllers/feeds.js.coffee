@@ -59,6 +59,6 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isEditing', false)
 
     loadRssFeed: ->
-      $('#divRss').FeedEk(FeedUrl : @get('url'))
+      $('#divRss').Feeds(FeedUrl : @get('url'))
 )
 
