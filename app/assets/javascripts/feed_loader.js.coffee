@@ -7,7 +7,6 @@ $ ->
       DateFormat: ""
       DateFormatLang:"en"
     , params)
-
     id = $(this).attr("id")
     $("#" + id).empty().append('<i class="fa fa-spinner fa-spin fa-5x" id="feed-loader-icon"></i>')
 
@@ -17,9 +16,8 @@ $ ->
       success: (data) ->
         $("#" + id).empty()
         if data.responseData != null
-          $.each(data.responseData.feed.entries, (event, item) ->
+          $.each data.responseData.feed.entries, (event, item) ->
             row += '<li><div class="itemTitle"><a href="' + item.link + '" target="_blank">' + item.title + "</a></div>"
-
             itemDate = new Date(item.publishedDate)
             if $.trim(feed.DateFormat).length > 0
               try
@@ -27,14 +25,12 @@ $ ->
                 row += '<div class="itemDate">' + moment(itemDate).format(feed.DateFormat) + "</div>"
               catch(error)
                 row += '<div class="itemDate">' + itemDate.toLocaleDateString() + "</div>"
-
-            # Do content
             if feed.CharacterLimit > 0 && item.content.length > feed.CharacterLimit
               row += '<div class="itemContent">' + item.content.substr(0, feed.DescCharacterLimit) + "...</div>"
             else
               row += '<div class="itemContent">' + item.content + "</div>"
-
           $("#" + id).append('<ul class="feedEkList list-unstyled">' + s + "</ul>")
         else
           $("#" + id).append('<h4><i>No Feed Found for "' + feed.FeedUrl + '".<i></h4>')
+    )
 
