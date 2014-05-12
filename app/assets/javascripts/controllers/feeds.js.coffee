@@ -62,7 +62,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
     loadRssFeed: ->
       self = this
       loader = $('#loader')
-      loader.empty().append('<i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>')
+      loader.empty().append('Loading Feed... <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>')
       request = loadFeed(FeedUrl :@get('url'))
       request.success (data) ->
         loader.empty()
