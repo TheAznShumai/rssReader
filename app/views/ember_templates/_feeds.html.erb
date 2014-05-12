@@ -43,7 +43,7 @@
     </div>
   {{/if}}
   <hr>
-  {{view RssReader.RssFeedView}}
+  {{view RssReader.LoadRssFeedView}}
   {{#each item in feedData}}
     {{view RssReader.RssFeedItemView contextBinding="item"}}
   {{/each}}
