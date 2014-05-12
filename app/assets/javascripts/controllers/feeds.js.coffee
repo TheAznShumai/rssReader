@@ -7,7 +7,7 @@ RssReader.FeedsController = Ember.ArrayController.extend(
 )
 
 RssReader.FeedsNewController = Ember.ObjectController.extend(
-   actions:
+  actions:
     submit: ->
       self = this
       @get('model').save().then (->
@@ -73,13 +73,9 @@ loadFeed = (params) ->
   feed = $.extend(
     FeedUrl: ""
     MaxCount: 25
-    CharacterLimit: 0
-    DateFormat: ""
-    DateFormatLang: "en"
   , params)
 
   return $.ajax(
     url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + feed.MaxCount + "&output=json&q=" + encodeURIComponent(feed.FeedUrl) + "&scoring=h" + "&hl=en&callback=?"
-    dataType: "json"
-  )
+    dataType: "json")
 
