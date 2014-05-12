@@ -25,8 +25,8 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
   isEditing: false
-  feedData: []
   isFeedEmpty: false
+  feedData: []
   actions:
     edit: ->
       @set('isEditing', true)
@@ -63,6 +63,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
     loadRssFeed: ->
       self = this
       self.set('isFeedEmpty', false)
+      self.set('feedData', [])
       loader = $('#loader')
       loader.empty().append('Loading Feed... <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>')
       request = loadFeed(FeedUrl :@get('url'))
