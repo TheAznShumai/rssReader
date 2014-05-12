@@ -40,13 +40,14 @@
       <button {{action 'edit'}} class="btn btn-xs">Edit</button>
       <button {{action 'delete'}} class="btn btn-xs">Delete</button>
       <button {{action 'loadRssFeed'}} class="btn btn-xs">Reload Rss</button>
+      <span id="loader"></span>
     </div>
   {{/if}}
   <hr>
   {{view RssReader.LoadRssFeedView}}
-  {{#each item in feedData}}
-    {{view RssReader.RssFeedItemView contextBinding="item"}}
-  {{/each}}
+    {{#each item in feedData}}
+      {{view RssReader.RssFeedItemView contextBinding="item"}}
+    {{/each}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
