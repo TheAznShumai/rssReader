@@ -45,9 +45,13 @@
   {{/if}}
   <hr>
   {{view RssReader.LoadRssFeedView}}
-    {{#each item in feedData}}
-      {{view RssReader.RssFeedItemView contextBinding="item"}}
-    {{/each}}
+    {{#unless isFeedEmpty}}
+      {{#each item in feedData}}
+        {{view RssReader.RssFeedItemView contextBinding="item"}}
+      {{/each}}
+    {{else}}
+      <h4>No Feed Found For Url - "{{url}}"</h4>
+    {{/unless}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
