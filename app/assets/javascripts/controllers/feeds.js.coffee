@@ -69,7 +69,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
 loadFeed = (params) ->
   feed = $.extend(
     FeedUrl: ""
-    MaxCount: 300
+    MaxCount: 25
     CharacterLimit: 0
     DateFormat: ""
     DateFormatLang: "en"

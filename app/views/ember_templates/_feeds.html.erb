@@ -44,8 +44,8 @@
   {{/if}}
   <hr>
   {{view RssReader.RssFeedView}}
-  {{#each feed in feedData}}
-    {{feed.title}}
+  {{#each item in feedData}}
+    {{view RssReader.RssFeedItemView contextBinding="item"}}
   {{/each}}
 </script>
 
@@ -76,11 +76,11 @@
 <script type="text/x-handlebars" id="feed_item">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title"><a {{bindAttr id='item.link'}} target="_blank">{{item.title}}</a></h4>
+      <h4 class="panel-title"><a {{bind-attr id='item.link'}} target="_blank">{{item.title}}</a></h4>
     </div>
     <div class="panel-body">
       <div class="itemDate">{{item.date}}</div>
-      <div class="itemContent">{{item.content}}</div>
+      <div class="itemContent">{{{item.content}}}</div>
     </div>
   </div>
 </script>

@@ -10,4 +10,6 @@ RssReader.RssFeedView = Ember.View.extend(
       @get('controller').send('loadRssFeed')
   ).observes('controller.id')
 )
-
+RssReader.RssFeedItemView = Ember.View.extend(
+  templateName: 'feed_item'
+)
