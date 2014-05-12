@@ -44,6 +44,9 @@
   {{/if}}
   <hr>
   {{view RssReader.RssFeedView}}
+  {{#each feed in feedData}}
+    {{feed.title}}
+  {{/each}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
@@ -66,6 +69,18 @@
     <div class="form-group">
       <button {{action 'submit'}} class="btn btn-success btn-xs">Submit</button>
       <button {{action 'cancel'}} class="btn btn-error btn-xs">Cancel</button>
+    </div>
+  </div>
+</script>
+
+<script type="text/x-handlebars" id="feed_item">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title"><a {{bindAttr id='item.link'}} target="_blank">{{item.title}}</a></h4>
+    </div>
+    <div class="panel-body">
+      <div class="itemDate">{{item.date}}</div>
+      <div class="itemContent">{{item.content}}</div>
     </div>
   </div>
 </script>
