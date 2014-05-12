@@ -25,6 +25,7 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
   isEditing: false
+  feedData: []
   actions:
     edit: ->
       @set('isEditing', true)
@@ -59,6 +60,23 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isEditing', false)
 
     loadRssFeed: ->
-      $('#divRss').Feeds(FeedUrl : @get('url'))
+      self = this
+      request = loadFeed(FeedUrl :@get('url'))
+      request.success (data) ->
+        self.set('feedData', data.responseData.feed.entries)
 )
+
+loadFeed = (params) ->
+  feed = $.extend(
+    FeedUrl: ""
+    MaxCount: 300
+    CharacterLimit: 0
+    DateFormat: ""
+    DateFormatLang: "en"
+  , params)
+
+  return $.ajax(
+    url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + feed.MaxCount + "&output=json&q=" + encodeURIComponent(feed.FeedUrl) + "&scoring=h" + "&hl=en&callback=?"
+    dataType: "json"
+  )
 
