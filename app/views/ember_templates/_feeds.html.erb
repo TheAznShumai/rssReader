@@ -48,9 +48,11 @@
   <hr>
   {{view RssReader.LoadRssFeedView}}
     {{#unless isFeedEmpty}}
-      {{#each item in feedData}}
-        {{view RssReader.RssFeedItemView contextBinding="item"}}
-      {{/each}}
+      <div class="panel-group">
+        {{#each item in feedData}}
+          {{view RssReader.RssFeedItemView contentBinding="item"}}
+        {{/each}}
+      </div>
     {{else}}
       <h4>No Feed Found For Url - "{{url}}"</h4>
     {{/unless}}
@@ -80,12 +82,14 @@
   </div>
 </script>
 
+<%# View Templates %>
+
 <script type="text/x-handlebars" id="feed_item">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title"><a {{bind-attr id='item.link'}} target="_blank">{{item.title}}</a></h4>
+      <h4 class="panel-title">{{#link-to 'feeds.show' id}}<span {{action 'collapse' view._parentView.contentIndex}}>{{item.title}}</span>{{/link-to}}</h4>
     </div>
-    <div class="panel-body">
+    <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
       <div class="itemDate">{{item.date}}</div>
       <div class="itemContent">{{{item.content}}}</div>
     </div>
