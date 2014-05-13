@@ -93,7 +93,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">
         {{#link-to 'feeds.show' id}}
-          <span {{action 'collapseToggle' view._parentView.contentIndex}}>{{item.title}}</span>
+          <span {{action 'collapseToggle' view._parentView.contentIndex}}>{{{item.title}}}</span>
         {{/link-to}}
         <span class="pull-right">
           <i>{{item.publishedDate}}</i>
