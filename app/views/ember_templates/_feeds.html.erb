@@ -43,6 +43,10 @@
       <button {{action 'delete'}} class="btn btn-xs">Delete</button>
       <button {{action 'loadRssFeed'}} class="btn btn-xs">Reload Rss</button>
       <span id="loader"></span>
+      <span class="pull-right">
+        <button {{action 'collapseAll'}} class="btn btn-xs">Collapse All</button>
+        <button {{action 'expandAll'}} class="btn btn-xs">Expand All</button>
+      </span>
     </div>
   {{/if}}
   <hr>
@@ -87,7 +91,7 @@
 <script type="text/x-handlebars" id="feed_item">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">{{#link-to 'feeds.show' id}}<span {{action 'collapse' view._parentView.contentIndex}}>{{item.title}}</span>{{/link-to}}</h4>
+      <h4 class="panel-title">{{#link-to 'feeds.show' id}}<span {{action 'collapseToggle' view._parentView.contentIndex}}>{{item.title}}</span>{{/link-to}}</h4>
     </div>
     <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
       <div class="itemDate">{{item.date}}</div>
