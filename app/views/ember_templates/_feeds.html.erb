@@ -98,7 +98,7 @@
             <span {{action 'collapseToggle' view._parentView.contentIndex}}>{{{truncate item.title 90}}}</span>
           {{/link-to}}
           <span class="pull-right">
-            <i>{{item.publishedDate}}</i>
+            <i>{{moment item.publishedDate}}</i>
           </span>
         </h4>
       </div>
