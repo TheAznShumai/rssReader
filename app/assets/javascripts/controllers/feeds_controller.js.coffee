@@ -24,9 +24,14 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 )
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
+  RssReader.LazyLoader
   isEditing: false
   isFeedEmpty: false
+  isFeedLoading: false
+  isFeedLoaded: false
   feedData: []
+  maxItemsCount: 100
+
   actions:
     edit: ->
       @set('isEditing', true)
@@ -71,26 +76,28 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
 
     loadRssFeed: ->
       self = this
-      self.set('isFeedEmpty', false)
-      self.set('feedData', [])
-      loader = $('#loader')
-      loader.empty().append('Loading Feed... <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>')
-      request = loadFeed(FeedUrl :@get('url'))
+      @set('isFeedLoading', true)
+      @set('isFeedLoaded', false)
+      @set('isFeedEmpty', false)
+      @set('feedData', [])
+      @send('initializeLazyLoader', 'feedData')
+      request = loadFeed(FeedUrl :@get('url'), MaxItemsCount : @get('maxItemCount'))
       request.success (data) ->
-        loader.empty()
         if data.responseData != null
           self.set('feedData', data.responseData.feed.entries)
         else
-          self.set('isFeedEmpty', true)
+          self.set('isFeedEmpty', false)
+        self.set('isFeedLoading', false)
+        self.set('isFeedLoaded', true)
 )
 
 loadFeed = (params) ->
   feed = $.extend(
     FeedUrl: ""
-    MaxCount: 25
+    MaxItemsCount: 100
   , params)
 
   return $.ajax(
-    url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + feed.MaxCount + "&output=json&q=" + encodeURIComponent(feed.FeedUrl) + "&scoring=h" + "&hl=en&callback=?"
+    url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + feed.MaxItemsCount + "&output=json&q=" + encodeURIComponent(feed.FeedUrl) + "&scoring=h" + "&hl=en&callback=?"
     dataType: "json")
 

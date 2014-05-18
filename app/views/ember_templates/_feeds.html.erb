@@ -42,7 +42,9 @@
       <button {{action 'edit'}} class="btn btn-xs">Edit</button>
       <button {{action 'delete'}} class="btn btn-xs">Delete</button>
       <button {{action 'loadRssFeed'}} class="btn btn-xs">Reload Rss</button>
-      <span id="loader"></span>
+      {{#if isFeedLoading}}
+        <span id="loader">Loading Feed... <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i></span>
+      {{/if}}
       <span class="pull-right">
         <button {{action 'collapseAll'}} class="btn btn-xs">Collapse All</button>
         <button {{action 'expandAll'}} class="btn btn-xs">Expand All</button>
@@ -51,13 +53,16 @@
   {{/if}}
   <hr>
   {{view RssReader.LoadRssFeedView}}
-    {{#unless isFeedEmpty}}
-      <div class="panel-group">
-        {{partial 'feed/items' }}
-      </div>
-    {{else}}
-      <h4>No Feed Found For Url - "{{url}}"</h4>
-    {{/unless}}
+    {{#if isFeedLoaded}}
+      {{#unless isFeedEmpty}}
+        <div class="panel-group">
+          {{partial 'feed/items'}}
+        </div>
+        {{view RssReader.LazyLoadItemsView}}
+      {{else}}
+        <h4>No Feed Found For Url - "{{url}}"</h4>
+      {{/unless}}
+    {{/if}}
 </script>
 
 <script type="text/x-handlebars" id="feeds/new">
@@ -85,7 +90,7 @@
 </script>
 
 <script type="text/x-handlebars" id="feed/_items">
-  {{#each item in feedData}}
+  {{#each item in lazyLoadedItems}}
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="panel-title">

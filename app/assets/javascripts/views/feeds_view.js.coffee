@@ -10,3 +10,15 @@ RssReader.LoadRssFeedView = Ember.View.extend(
   ).observes('controller.id')
 )
 
+RssReader.LazyLoadItemsView = Ember.View.extend(Ember.ViewTargetActionSupport,
+  template: Ember.Handlebars.compile('<div>Lazy Loading View Area</div>')
+  action: "loadMoreItems"
+  didInsertElement: ->
+    self = this
+    this.$().bind "inview", (event, isInView, visiblePartX, visiblePartY) ->
+      if isInView
+        Ember.run.later this, (->
+          self.triggerAction()
+        ), 100
+)
+
