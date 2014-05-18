@@ -105,7 +105,11 @@
           </h4>
         </div>
       </div>
-      <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
+      {{#if collapseAll}}
+        <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse">
+      {{else}}
+        <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
+      {{/if}}
         <div class="itemContent">{{{item.content}}}</div>
       </div>
     </div>

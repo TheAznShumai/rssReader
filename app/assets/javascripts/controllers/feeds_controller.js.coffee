@@ -25,6 +25,8 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
   RssReader.LazyLoader
+  RssReader.BootstrapAccordion
+
   isEditing: false
   isFeedEmpty: false
   isFeedLoading: false
@@ -64,15 +66,6 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @get('model').save()
         @transitionToRoute('feeds')
         @set('isEditing', false)
-
-    collapseToggle: (id) ->
-      $("#" + id).collapse('toggle')
-
-    collapseAll: ->
-      $(".collapse").collapse('hide')
-
-    expandAll: ->
-      $(".collapse").not(".in").collapse('show')
 
     loadRssFeed: ->
       self = this

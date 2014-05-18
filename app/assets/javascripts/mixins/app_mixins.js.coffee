@@ -42,3 +42,19 @@ RssReader.LazyLoader = Ember.Mixin.create(
         ), 100
 )
 
+RssReader.BootstrapAccordion = Ember.Mixin.create(
+  collapseAll : false
+
+  actions:
+    collapseToggle: (id) ->
+      $("#" + id).collapse('toggle')
+
+    collapseAll: ->
+      $(".collapse").collapse('hide')
+      @set('collapseAll', true)
+
+    expandAll: ->
+      $(".collapse").not(".in").collapse('show')
+      @set('collapseAll', false)
+)
+
