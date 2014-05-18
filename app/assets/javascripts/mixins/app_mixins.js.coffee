@@ -12,15 +12,16 @@ RssReader.TearDownOnTransition = Ember.Mixin.create(
 )
 
 RssReader.LazyLoader = Ember.Mixin.create(
+  storageLocation: ''
   lazyLoadedItems: []
   currentPage: 0
   perPage: 25
   isLoadingMoreItems: false
-  storageLocation: ''
 
-  canLoadMoreItems: ->
+  canLoadMoreItems: (->
     nextPageInitIndex = @get('currentPage') * @get('perPage')
     return nextPageInitIndex < @get(@get('storageLocation')).length
+  ).property('currentPage', 'perPage', 'storageLocation')
 
   actions:
     initializeLazyLoader: (storageLocation) ->
@@ -43,7 +44,7 @@ RssReader.LazyLoader = Ember.Mixin.create(
 )
 
 RssReader.BootstrapAccordion = Ember.Mixin.create(
-  collapseAll : false
+  isCollapsed: false
 
   actions:
     collapseToggle: (id) ->
@@ -51,10 +52,10 @@ RssReader.BootstrapAccordion = Ember.Mixin.create(
 
     collapseAll: ->
       $(".collapse").collapse('hide')
-      @set('collapseAll', true)
+      @set('isCollapsed', true)
 
     expandAll: ->
       $(".collapse").not(".in").collapse('show')
-      @set('collapseAll', false)
+      @set('isCollapsed', false)
 )
 

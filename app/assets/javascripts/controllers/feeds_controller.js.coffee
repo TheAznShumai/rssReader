@@ -32,7 +32,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
   isFeedLoading: false
   isFeedLoaded: false
   feedData: []
-  maxItemsCount: 100
+  maxItemsCount: 300
 
   actions:
     edit: ->
@@ -74,12 +74,12 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
       @set('isFeedEmpty', false)
       @set('feedData', [])
       @send('initializeLazyLoader', 'feedData')
-      request = loadFeed(FeedUrl :@get('url'), MaxItemsCount : @get('maxItemCount'))
+      request = loadFeed(FeedUrl :@get('url'), MaxItemsCount : @get('maxItemsCount'))
       request.success (data) ->
         if data.responseData != null
           self.set('feedData', data.responseData.feed.entries)
         else
-          self.set('isFeedEmpty', false)
+          self.set('isFeedEmpty', true)
         self.set('isFeedLoading', false)
         self.set('isFeedLoaded', true)
 )
@@ -87,7 +87,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
 loadFeed = (params) ->
   feed = $.extend(
     FeedUrl: ""
-    MaxItemsCount: 100
+    MaxItemsCount: 25
   , params)
 
   return $.ajax(
