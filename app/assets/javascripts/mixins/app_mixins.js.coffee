@@ -15,7 +15,7 @@ RssReader.LazyLoader = Ember.Mixin.create(
   storageLocation: ''
   lazyLoadedItems: []
   currentPage: 0
-  perPage: 25
+  perPage: 15
   isLoadingMoreItems: false
 
   canLoadMoreItems: (->
