@@ -53,9 +53,7 @@
   {{view RssReader.LoadRssFeedView}}
     {{#unless isFeedEmpty}}
       <div class="panel-group">
-        {{#each item in feedData}}
-          {{view RssReader.RssFeedItemView contentBinding="item"}}
-        {{/each}}
+        {{partial 'feed/items' }}
       </div>
     {{else}}
       <h4>No Feed Found For Url - "{{url}}"</h4>
@@ -86,26 +84,26 @@
   </div>
 </script>
 
-<%# View Templates %>
-
-<script type="text/x-handlebars" id="feed_item">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">
-        <h4>
-          <a {{bind-attr href='item.link'}} class="btn btn-info btn-xs" target="_blank">Link</a> -
-          {{#link-to 'feeds.show' id}}
-            <span {{action 'collapseToggle' view._parentView.contentIndex}}>{{{truncate item.title 90}}}</span>
-          {{/link-to}}
-          <span class="pull-right">
-            <i>{{moment item.publishedDate}}</i>
-          </span>
-        </h4>
+<script type="text/x-handlebars" id="feed/_items">
+  {{#each item in feedData}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <h4>
+            <a {{bind-attr href='item.link'}} class="btn btn-info btn-xs" target="_blank">Link</a> -
+            {{#link-to 'feeds.show' id}}
+              <span {{action 'collapseToggle' view._parentView.contentIndex}}>{{{truncate item.title 90}}}</span>
+            {{/link-to}}
+            <span class="pull-right">
+              <i>{{moment item.publishedDate}}</i>
+            </span>
+          </h4>
+        </div>
+      </div>
+      <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
+        <div class="itemContent">{{{item.content}}}</div>
       </div>
     </div>
-    <div {{bind-attr id='view._parentView.contentIndex'}} class="panel-body collapse in">
-      <div class="itemContent">{{{item.content}}}</div>
-    </div>
-  </div>
+  {{/each}}
 </script>
 
