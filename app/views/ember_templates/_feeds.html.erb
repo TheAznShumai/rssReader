@@ -58,7 +58,6 @@
         <div class="panel-group">
           {{partial 'feed/items'}}
         </div>
-        <hr>
         {{view RssReader.LazyLoaderView}}
       {{else}}
         <h4>No Feed Found For Url - "{{url}}"</h4>
@@ -116,6 +115,8 @@
 <%# View templates %>
 
 <script type="text/x-handlebars" data-template-name="lazy-loader-template">
+{{#unless initLoad}}
+<hr>
 <div id="lazy-loader-footer" style="padding-top:10px; padding-bottom:70px">
   <button class="btn btn-default center-block">
     {{#if canLoadMoreItems}}
@@ -128,5 +129,6 @@
     {{/if}}
   </button>
 </div>
+{{/unless}}
 </script>
 
