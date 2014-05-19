@@ -40,7 +40,7 @@ RssReader.LazyLoader = Ember.Mixin.create(
         Ember.run.later this, (->
           self.lazyLoadedItems.pushObjects(self.get(self.get('storageLocation')).slice(nextPageInitIndex, nextPageEndIndex))
           self.set('isLoadingMoreItems', false)
-        ), 500
+        ), self.get('currentPage') == 0 ? 0 : 500
 )
 
 RssReader.BootstrapAccordion = Ember.Mixin.create(
