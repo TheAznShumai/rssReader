@@ -21,3 +21,13 @@ RssReader.LazyLoaderView = Ember.View.extend(Ember.ViewTargetActionSupport,
         ), 200
 )
 
+RssReader.FeedItemsView = Ember.View.extend(
+  templateName: "feed-items-template"
+  didInsertElement: ->
+    imgSelector = ".itemContent img"
+    lazyLoaderEffect = "fadeIn"
+    @$(imgSelector).attr("data-original", @$(imgSelector).attr("src"))
+    @$(imgSelector).removeAttr("src")
+    @$(imgSelector).lazyload(effect: lazyLoaderEffect)
+)
+
