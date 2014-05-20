@@ -32,14 +32,13 @@ RssReader.LazyLoader = Ember.Mixin.create(
 
     loadMoreItems: ->
       if @get('canLoadMoreItems')
-        self = this
         @set('isLoadingMoreItems', true)
         nextPageInitIndex = @get('currentPage') * @get('perPage')
         nextPageEndIndex = Math.min((nextPageInitIndex + @get('perPage')), @get(@get('storageLocation')).length)
         @incrementProperty('currentPage')
-        Ember.run.later this, (->
-          self.lazyLoadedItems.pushObjects(self.get(self.get('storageLocation')).slice(nextPageInitIndex, nextPageEndIndex))
-          self.set('isLoadingMoreItems', false)
+        Ember.run.later this, (=>
+          @lazyLoadedItems.pushObjects(@get(@get('storageLocation')).slice(nextPageInitIndex, nextPageEndIndex))
+          @set('isLoadingMoreItems', false)
         ), 500
 )
 

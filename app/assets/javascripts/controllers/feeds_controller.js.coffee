@@ -9,10 +9,9 @@ RssReader.FeedsController = Ember.ArrayController.extend(
 RssReader.FeedsNewController = Ember.ObjectController.extend(
   actions:
     submit: ->
-      self = this
-      @get('model').save().then (->
-        self.transitionToRoute('feeds.show', self.get('model').id)
-      ), (error) ->
+      @get('model').save().then (=>
+        @transitionToRoute('feeds.show', @get('model').id)
+      ), (error) =>
         @get('model').rollback()
         alert 'An Error Occured'
         console.log(error)
@@ -47,18 +46,17 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isEditing', false)
 
     submit: ->
-      self = this
       if @get('model').get('isDirty')
-        @get('model').save().then (->
-          self.set('isEditing', false)
-          self.transitionToRoute('feeds.show', self.get('model').id)
-          self.send('loadRssFeed')
-        ), (error) ->
+        @get('model').save().then (=>
+          @set('isEditing', false)
+          @transitionToRoute('feeds.show', @get('model').id)
+          @send('loadRssFeed')
+        ), (error) =>
           @get('model').rollback()
           alert 'An Error Occured'
           console.log(error)
       else
-        self.send('cancel')
+        @send('cancel')
 
     delete: ->
       if confirm("Are you sure you want to delete this feed?")
@@ -68,20 +66,19 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isEditing', false)
 
     loadRssFeed: ->
-      self = this
       @set('isFeedLoading', true)
       @set('isFeedLoaded', false)
       @set('isFeedEmpty', false)
       @set('feedData', [])
       @send('initializeLazyLoader', 'feedData')
-      request = loadFeed(FeedUrl :@get('url'), MaxItemsCount : @get('maxItemsCount'))
-      request.success (data) ->
+      request = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
+      request.success (data) =>
         if data.responseData != null
-          self.set('feedData', data.responseData.feed.entries)
+          @set('feedData', data.responseData.feed.entries)
         else
-          self.set('isFeedEmpty', true)
-        self.set('isFeedLoading', false)
-        self.set('isFeedLoaded', true)
+          @set('isFeedEmpty', true)
+        @set('isFeedLoading', false)
+        @set('isFeedLoaded', true)
 )
 
 loadFeed = (params) ->

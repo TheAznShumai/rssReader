@@ -14,11 +14,10 @@ RssReader.LazyLoaderView = Ember.View.extend(Ember.ViewTargetActionSupport,
   templateName: "lazy-loader-template"
   action: "loadMoreItems"
   didInsertElement: ->
-    self = this
-    this.$().bind "inview", (event, isInView, visiblePartX, visiblePartY) ->
+    @$().bind "inview", (event, isInView, visiblePartX, visiblePartY) =>
       if isInView
-        Ember.run.later this, (->
-          self.triggerAction()
+        Ember.run.later this, (=>
+          @triggerAction()
         ), 200
 )
 
