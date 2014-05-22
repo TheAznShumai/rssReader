@@ -2,4 +2,4 @@
 
 Demo Hosted on heroku
 
-* [Demo-link](http://ember-rss-reader.herokuapp.com/)
+* http://ember-rss-reader.herokuapp.com/
