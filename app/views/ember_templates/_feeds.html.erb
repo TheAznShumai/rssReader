@@ -56,7 +56,7 @@
     {{#if isFeedLoaded}}
       {{#unless isFeedEmpty}}
         <div class="panel-group">
-          {{each item in lazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
+          {{each item in cacheLazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
         </div>
         {{view RssReader.LazyLoaderView}}
       {{else}}
