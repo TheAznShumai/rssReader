@@ -69,8 +69,6 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
       @set('isFeedLoading', true)
       @set('isFeedLoaded', false)
       @set('isFeedEmpty', false)
-      @set('feedData', [])
-      @send('initializeLazyLoader', 'feedData')
       request = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
       request.success (data) =>
         if data.responseData != null
