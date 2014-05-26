@@ -125,9 +125,9 @@
 <hr>
 <div id="lazy-loader-footer" style="padding-top:10px; padding-bottom:70px">
   <button class="btn btn-default center-block">
-    {{#if canLoadMoreItems}}
+    {{#if view.parentView.canLoadMoreItems}}
       Loading Items
-      {{#if isLoadingMoreItems}}
+      {{#if view.parentView.isLoadingMoreItems}}
         <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>
       {{/if}}
     {{else}}
