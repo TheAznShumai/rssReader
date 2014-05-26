@@ -16,7 +16,7 @@ RssReader.BootstrapAccordion = Ember.Mixin.create(
 
   actions:
     collapseToggle: (id) ->
-      $("#" + id).collapse('toggle')
+      $("#" + id).find(".collapse").collapse('toggle')
 
     collapseAll: ->
       $(".collapse").collapse('hide')

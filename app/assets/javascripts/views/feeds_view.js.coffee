@@ -1,8 +1,22 @@
 RssReader.FeedCollectionView = Ember.CollectionView.extend(
   init: ->
-    Ember.run.later this, (->
+    Ember.run.later this, (=>
       @get('controller').send('loadRssFeed')
+      @pushObject(RssReader.FeedView.create(id: @get('controller.content.id')))
     ), 100
+
+  idDidChange: (->
+    viewIndex = @get('viewIndex')
+    @send('hideAllChildren')
+    if Ember.isBlank(viewIndex)
+      Ember.run.later this, (=>
+        @pushObject(RssReader.FeedView.create(id: @get('controller.content.id'), lazyLoadedItems: []))
+      ), 100
+    else
+      @send('showChildWithId', @get('controller.id'))
+    Ember.run.next this, ->
+      @get('controller').send('loadRssFeed')
+  ).observes('controller.id')
 
   viewIndex: (->
     viewIndex = null
@@ -11,23 +25,27 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
     return viewIndex
   ).property().volatile()
 
-  idDidChange: (->
-    Ember.run.next this, ->
-      @get('controller').send('loadRssFeed')
-  ).observes('controller.id')
-
   # TODO - Optimize the process more and fix viewIndex
+
   feedDataDidChange: (->
     feedData = @get('controller.feedData')
     if not Ember.isBlank(feedData)
-      if Ember.isBlank(@get('viewIndex'))
-        @pushObject(RssReader.FeedView.create(
-            id: @get('controller.content.id')
-            feedData: feedData
-        ))
+      childView = @get('childViews')[@get('viewIndex')]
+      if not Ember.isBlank(childView)
+        childView.set('feedData', feedData)
       else
-        #do stuff to add offset to the view and add element onto the current viewData
+        if childView.feedData[0] != feedData[0]
+          debugger
+          #do some appending if needed
   ).observes('controller.feedData')
+
+  actions:
+    showChildWithId: (id) ->
+      @get('childViews').forEach (view, index) ->
+        view.set('isVisible', true) if view.id == id and not view.isVisible
+    hideAllChildren: ->
+      @get('childViews').forEach (view, index) ->
+        view.set('isVisible', false) if view.isVisible
 )
 
 RssReader.FeedView = Ember.View.extend(
@@ -40,6 +58,10 @@ RssReader.FeedView = Ember.View.extend(
   currentPage: 0
   perPage: 15
   isLoadingMoreItems: false
+
+  isFeedEmpty: (->
+    return Ember.isBlank(@get('feedData'))
+  ).property('feedData')
 
   canLoadMoreItems: (->
     nextPageInitIndex = @get('currentPage') * @get('perPage')

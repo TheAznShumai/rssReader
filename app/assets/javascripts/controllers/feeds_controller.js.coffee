@@ -26,7 +26,6 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
   RssReader.BootstrapAccordion
 
   isEditing: false
-  isFeedEmpty: false
   isFeedLoading: false
   isFeedLoaded: false
   feedData: []
@@ -67,13 +66,10 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
     loadRssFeed: ->
       @set('isFeedLoading', true)
       @set('isFeedLoaded', false)
-      @set('isFeedEmpty', false)
       request = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
       request.success (data) =>
         if data.responseData != null
           @set('feedData', data.responseData.feed.entries)
-        else
-          @set('isFeedEmpty', true)
         @set('isFeedLoading', false)
         @set('isFeedLoaded', true)
 )
