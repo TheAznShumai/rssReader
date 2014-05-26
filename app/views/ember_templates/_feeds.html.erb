@@ -67,8 +67,10 @@
     {{#unless view.isFeedEmpty}}
       {{yield}}
     {{else}}
-      {{#if isFeedLoaded}}
-        <h4>No Feed Found For Url - "{{url}}"</h4>
+      {{#if controller}}
+        {{#if isFeedLoaded}}
+          <h4>No Feed Found For Url - "{{url}}"</h4>
+        {{/if}}
       {{/if}}
     {{/unless}}
   {{/if}}
