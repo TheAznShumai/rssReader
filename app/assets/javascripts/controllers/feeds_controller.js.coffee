@@ -78,6 +78,8 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isFeedLoaded', true)
 )
 
+#TODO - organize me please
+
 loadFeed = (params) ->
   feed = $.extend(
     FeedUrl: ""

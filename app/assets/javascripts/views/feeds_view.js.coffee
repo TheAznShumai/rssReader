@@ -17,7 +17,6 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
   ).observes('controller.id')
 
   # TODO - Optimize the process more and fix viewIndex
-
   feedDataDidChange: (->
     feedData = @get('controller.feedData')
     if not Ember.isBlank(feedData)
@@ -49,7 +48,6 @@ RssReader.FeedView = Ember.View.extend(
 
   actions:
     loadMoreItems: ->
-      debugger
       if @get('canLoadMoreItems')
         @set('isLoadingMoreItems', true)
         nextPageInitIndex = @get('currentPage') * @get('perPage')
@@ -70,10 +68,9 @@ RssReader.LazyLoaderView = Ember.View.extend(
     @$().bind "inview", (event, isInView, visiblePartX, visiblePartY) =>
       if isInView
         Ember.run.later this, (=>
-          debugger
           @triggerAction(
             action: "loadMoreItems"
-            target: this.get('this._parentView._parentView._parentView')
+            target: @get('this._parentView._parentView._parentView')
           )
         ), 200
 )

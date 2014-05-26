@@ -1,28 +1,26 @@
 <script type="text/x-handlebars" id="feeds">
   <div class="container-fluid">
-  <h2>Rss Feeds Reader</h1>
-  <div class="row">
-
-    <div class="col-md-2">
-      <ul class="nav nav-pills nav-stacked">
-        <li>{{#link-to 'feeds'}}Home{{/link-to}}</li>
-        {{#each feed in filteredContent}}
-          {{#if feed.id}}
-            <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
-          {{else}}
-            <li>{{#link-to 'feeds.new'}}{{feed.name}}{{/link-to}}</li>
-          {{/if}}
-        {{/each}}
-      </ul>
-      {{link-to 'Add a New Feed' 'feeds.new' class="btn btn-primary"}}
-    </div>
-
-    <div class="col-md-10">
-      <div class="container">
-        {{outlet}}
+    <h2>Rss Feeds Reader</h1>
+    <div class="row">
+      <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+          <li>{{#link-to 'feeds'}}Home{{/link-to}}</li>
+          {{#each feed in filteredContent}}
+            {{#if feed.id}}
+              <li>{{#link-to 'feeds.show' feed.id}}{{feed.name}}{{/link-to}}</li>
+            {{else}}
+              <li>{{#link-to 'feeds.new'}}{{feed.name}}{{/link-to}}</li>
+            {{/if}}
+          {{/each}}
+        </ul>
+        {{link-to 'Add a New Feed' 'feeds.new' class="btn btn-primary"}}
+      </div>
+      <div class="col-md-10">
+        <div class="container">
+          {{outlet}}
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </script>
 
@@ -55,6 +53,13 @@
   {{view RssReader.FeedCollectionView elementId="feed-collection-view"}}
 </script>
 
+<script type="text/x-handlebars" id="feeds/new">
+  <h3>{{name}}<h3>
+  <hr>
+  <h4>Enter a New Rss Feed</h4>
+  {{partial 'feed/edit'}}
+</script>
+
 <%# Layouts %>
 
 <script type="text/x-handlebars" data-template-name="feed-show-layout">
@@ -72,15 +77,6 @@
     {{each item in view.lazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
   </div>
   {{view RssReader.LazyLoaderView}}
-</script>
-
-<%# --- %>
-
-<script type="text/x-handlebars" id="feeds/new">
-  <h3>{{name}}<h3>
-  <hr>
-  <h4>Enter a New Rss Feed</h4>
-  {{partial 'feed/edit'}}
 </script>
 
 <%# Partials %>
