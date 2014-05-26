@@ -129,21 +129,23 @@
 <%# TODO - Clean me please %>
 
 <script type="text/x-handlebars" data-template-name="lazy-loader-template">
-<div id="lazy-loader-footer" style="padding-top:10px; padding-bottom:70px">
-  <button class="btn btn-default center-block">
-    {{#if view.parentView.canLoadMoreItems}}
-      Loading Items
-      {{#if view.parentView.isLoadingMoreItems}}
-        <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>
-      {{/if}}
-    {{else}}
-      {{#unless view.parentView.isLoadingMoreItems}}
-        <i>No More Items</i>
+  <div id="lazy-loader-footer" style="padding-top:10px; padding-bottom:70px">
+    <button class="btn btn-default center-block">
+      {{#if view.parentView.canLoadMoreItems}}
+        {{#if view.parentView.isLoadingMoreItems}}
+          <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>
+          &nbsp;Loading...
+        {{else}}
+          Load More
+        {{/if}}
       {{else}}
-        Loading Items <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>
-      {{/unless}}
-    {{/if}}
-  </button>
-</div>
+        {{#unless view.parentView.isLoadingMoreItems}}
+          <i>No More Items</i>
+        {{else}}
+          Loading Items <i class="fa fa-spinner fa-spin" id="feed-loader-icon"></i>
+        {{/unless}}
+      {{/if}}
+    </button>
+  </div>
 </script>
 
