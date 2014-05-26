@@ -44,7 +44,7 @@ RssReader.FeedView = Ember.View.extend(
   canLoadMoreItems: (->
     nextPageInitIndex = @get('currentPage') * @get('perPage')
     return nextPageInitIndex < @get('feedData').length
-  ).property().volatile()
+  ).property('currentPage', 'perPage', 'feedData')
 
   actions:
     loadMoreItems: ->
