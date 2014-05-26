@@ -20,7 +20,7 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
     @get('childViews').forEach (view, index) =>
       viewIndex = index if view.id == @get('controller.id')
     return viewIndex
-  ).property().volatile()
+  ).property('childViews', 'controller.id')
 
   # TODO - Optimize the process more and fix viewIndex
 
