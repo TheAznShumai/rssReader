@@ -11,45 +11,6 @@ RssReader.TearDownOnTransition = Ember.Mixin.create(
         @get('controller').set('isEditing', false) if model.get('isLoaded')
 )
 
-RssReader.LazyLoader = Ember.Mixin.create(
-  storageLocation: ''
-  lazyLoadedItems: []
-  currentPage: 0
-  perPage: 15
-  isLoadingMoreItems: false
-
-  cacheKey: (->
-    return @lazyLoadedItems[0]
-  ).property()
-
-  cacheLazyLoadedItems: (->
-    return @get('lazyLoadedItems')
-  ).property('currentPage', 'perPage', 'storageLocation', 'cacheKey')
-
-  canLoadMoreItems: (->
-    nextPageInitIndex = @get('currentPage') * @get('perPage')
-    return nextPageInitIndex < @get(@get('storageLocation')).length
-  ).property('currentPage', 'perPage', 'storageLocation', 'cacheKey')
-
-  actions:
-    initializeLazyLoader: (storageLocation) ->
-      @set('lazyLoadedItems', [])
-      @set('currentPage', 0)
-      @set('isLoadingMoreItems', false)
-      @set('storageLocation', storageLocation)
-
-    loadMoreItems: ->
-      if @get('canLoadMoreItems')
-        @set('isLoadingMoreItems', true)
-        nextPageInitIndex = @get('currentPage') * @get('perPage')
-        nextPageEndIndex = Math.min((nextPageInitIndex + @get('perPage')), @get(@get('storageLocation')).length)
-        @incrementProperty('currentPage')
-        Ember.run.later this, (=>
-          @lazyLoadedItems.pushObjects(@get(@get('storageLocation')).slice(nextPageInitIndex, nextPageEndIndex))
-          @set('isLoadingMoreItems', false)
-        ), 500
-)
-
 RssReader.BootstrapAccordion = Ember.Mixin.create(
   isCollapsed: false
 

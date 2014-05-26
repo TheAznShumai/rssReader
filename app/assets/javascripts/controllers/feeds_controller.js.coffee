@@ -23,7 +23,6 @@ RssReader.FeedsNewController = Ember.ObjectController.extend(
 )
 
 RssReader.FeedsShowController = Ember.ObjectController.extend(
-  RssReader.LazyLoader
   RssReader.BootstrapAccordion
 
   isEditing: false
@@ -31,7 +30,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
   isFeedLoading: false
   isFeedLoaded: false
   feedData: []
-  maxItemsCount: 300
+  maxItemsCount: 50
 
   actions:
     edit: ->

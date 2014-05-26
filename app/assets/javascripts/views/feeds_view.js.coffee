@@ -1,23 +1,80 @@
-RssReader.LoadRssFeedView = Ember.View.extend(
-  init: (->
+RssReader.FeedCollectionView = Ember.CollectionView.extend(
+  init: ->
     Ember.run.later this, (->
       @get('controller').send('loadRssFeed')
     ), 100
-  )
+
+  viewIndex: (->
+    viewIndex = null
+    @get('childViews').forEach (view, index) =>
+      viewIndex = index if view.id == @get('controller.id')
+    return viewIndex
+  ).property().volatile()
+
   idDidChange: (->
     Ember.run.next this, ->
       @get('controller').send('loadRssFeed')
   ).observes('controller.id')
+
+  # TODO - Optimize the process more and fix viewIndex
+
+  feedDataDidChange: (->
+    feedData = @get('controller.feedData')
+    if not Ember.isBlank(feedData)
+      if Ember.isBlank(@get('viewIndex'))
+        @pushObject(RssReader.FeedView.create(
+            id: @get('controller.content.id')
+            feedData: feedData
+        ))
+      else
+        #do stuff to add offset to the view and add element onto the current viewData
+  ).observes('controller.feedData')
 )
 
-RssReader.LazyLoaderView = Ember.View.extend(Ember.ViewTargetActionSupport,
+RssReader.FeedView = Ember.View.extend(
+  layoutName: 'feed-show-layout'
+  templateName: 'feed-data-template'
+
+  id: -1
+  feedData: []
+  lazyLoadedItems: []
+  currentPage: 0
+  perPage: 15
+  isLoadingMoreItems: false
+
+  canLoadMoreItems: (->
+    nextPageInitIndex = @get('currentPage') * @get('perPage')
+    return nextPageInitIndex < @get('feedData').length
+  ).property().volatile()
+
+  actions:
+    loadMoreItems: ->
+      debugger
+      if @get('canLoadMoreItems')
+        @set('isLoadingMoreItems', true)
+        nextPageInitIndex = @get('currentPage') * @get('perPage')
+        nextPageEndIndex = Math.min((nextPageInitIndex + @get('perPage')), @get('feedData').length)
+        @incrementProperty('currentPage')
+        Ember.run.later this, (=>
+          @lazyLoadedItems.pushObjects(@get('feedData').slice(nextPageInitIndex, nextPageEndIndex))
+          @set('isLoadingMoreItems', false)
+        ), 500
+)
+
+# TODO - fix the targetting
+
+RssReader.LazyLoaderView = Ember.View.extend(
+  Ember.ViewTargetActionSupport
   templateName: "lazy-loader-template"
-  action: "loadMoreItems"
   didInsertElement: ->
     @$().bind "inview", (event, isInView, visiblePartX, visiblePartY) =>
       if isInView
         Ember.run.later this, (=>
-          @triggerAction()
+          debugger
+          @triggerAction(
+            action: "loadMoreItems"
+            target: this.get('this._parentView._parentView._parentView')
+          )
         ), 200
 )
 

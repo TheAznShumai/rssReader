@@ -52,24 +52,35 @@
     </div>
   {{/if}}
   <hr>
-  {{view RssReader.LoadRssFeedView}}
-    {{#if isFeedLoaded}}
-      {{#unless isFeedEmpty}}
-        <div class="panel-group">
-          {{each item in cacheLazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
-        </div>
-        {{view RssReader.LazyLoaderView}}
-      {{else}}
-        <h4>No Feed Found For Url - "{{url}}"</h4>
-      {{/unless}}
-    {{/if}}
+  {{view RssReader.FeedCollectionView elementId="feed-collection-view"}}
 </script>
+
+<%# Layouts %>
+
+<script type="text/x-handlebars" data-template-name="feed-show-layout">
+  {{#if isFeedLoaded}}
+    {{#unless isFeedEmpty}}
+      {{yield}}
+    {{else}}
+      <h4>No Feed Found For Url - "{{url}}"</h4>
+    {{/unless}}
+  {{/if}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="feed-data-template">
+  <div class="panel-group">
+    {{each item in view.lazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
+  </div>
+  {{view RssReader.LazyLoaderView}}
+</script>
+
+<%# --- %>
 
 <script type="text/x-handlebars" id="feeds/new">
   <h3>{{name}}<h3>
   <hr>
   <h4>Enter a New Rss Feed</h4>
-  {{partial 'feed/edit' }}
+  {{partial 'feed/edit'}}
 </script>
 
 <%# Partials %>
@@ -98,6 +109,7 @@
         <h4>
           <a {{bind-attr href='item.link'}} class="btn btn-info btn-xs" target="_blank">Link</a> -
           {{#link-to 'feeds.show' id}}
+          <%# TODO - fix me with element.id %>
             <span {{action 'collapseToggle' _view._parentView.contentIndex}}>{{{truncate item.title 90}}}</span>
           {{/link-to}}
           <span class="pull-right">
@@ -106,6 +118,7 @@
         </h4>
       </div>
     </div>
+          <%# TODO - fix me with element.id %>
     <div {{bind-attr id="_view.contentIndex" class=":panel-body :collapse isCollapsed::in"}}>
       <div class="itemContent">{{{item.content}}}</div>
     </div>
