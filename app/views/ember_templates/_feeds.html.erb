@@ -78,6 +78,9 @@
   <div class="panel-group">
     {{each item in view.lazyLoadedItems itemViewClass="RssReader.FeedItemsView"}}
   </div>
+  {{#if view.isInitialized}}
+    <hr>
+  {{/if}}
   {{view RssReader.LazyLoaderView}}
 </script>
 
@@ -124,7 +127,6 @@
 <%# TODO - Clean me please %>
 
 <script type="text/x-handlebars" data-template-name="lazy-loader-template">
-<hr>
 <div id="lazy-loader-footer" style="padding-top:10px; padding-bottom:70px">
   <button class="btn btn-default center-block">
     {{#if view.parentView.canLoadMoreItems}}
