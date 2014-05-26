@@ -1,21 +1,18 @@
 RssReader.FeedCollectionView = Ember.CollectionView.extend(
   init: ->
-    Ember.run.later this, (=>
+    Ember.run.next this, =>
       @get('controller').send('loadRssFeed')
       @pushObject(RssReader.FeedView.create(id: @get('controller.content.id')))
-    ), 100
 
   idDidChange: (->
     viewIndex = @get('viewIndex')
     @send('hideAllChildren')
     if Ember.isBlank(viewIndex)
-      Ember.run.later this, (=>
+      Ember.run.next this, =>
         @pushObject(RssReader.FeedView.create(id: @get('controller.content.id'), lazyLoadedItems: []))
-      ), 100
     else
       @send('showChildWithId', @get('controller.id'))
-    Ember.run.next this, ->
-      @get('controller').send('loadRssFeed')
+    @get('controller').send('loadRssFeed')
   ).observes('controller.id')
 
   viewIndex: (->
@@ -36,16 +33,18 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
       else
         if childView.feedData[0] != feedData[0]
           debugger
-          #do some appending if needed
+          #do some appending if needed (unshift)
   ).observes('controller.feedData')
 
   actions:
     showChildWithId: (id) ->
-      @get('childViews').forEach (view, index) ->
-        view.set('isVisible', true) if view.id == id and not view.isVisible
+      Ember.run this, =>
+        @get('childViews').forEach (view, index) ->
+          view.set('isVisible', true) if view.id == id and not view.isVisible
     hideAllChildren: ->
-      @get('childViews').forEach (view, index) ->
-        view.set('isVisible', false) if view.isVisible
+      Ember.run this, =>
+        @get('childViews').forEach (view, index) ->
+          view.set('isVisible', false) if view.isVisible
 )
 
 RssReader.FeedView = Ember.View.extend(
