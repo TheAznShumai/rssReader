@@ -40,10 +40,10 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
             newItemsEndIndex++ while !isFeedObjectEql(lazyLoadedItems[0], feedData[newItemsEndIndex]) &&
                                       newItemsEndIndex < feedData.length &&
                                       newItemsEndIndex < limit
-            if (newItemsEndIndex < limit)
-              childView.initialize(feedData)
-            else
+            if newItemsEndIndex < limit
               lazyLoadedItems.unshiftObjects(feedData.slice(0, newItemsEndIndex))
+            else
+              childView.initialize(feedData)
   ).observes('controller.feedData')
 
   actions:
