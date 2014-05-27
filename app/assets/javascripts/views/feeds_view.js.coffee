@@ -35,18 +35,15 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
         else
           lazyLoadedItems = childView.lazyLoadedItems
           if !isFeedObjectEql(lazyLoadedItems[0], feedData[0])
-            index = 0
+            newItemsEndIndex = 0
             limit = @get('itemsUpdateLimit')
-            index++ while !isFeedObjectEql(lazyLoadedItems[0], feedData[index]) &&
-                          index < feedData.length &&
-                          index < limit
-            if (index < limit)
-              Ember.run.next this, (=>
-                childView.initialize()
-                childView.set('feedData', feedData)
-              )
+            newItemsEndIndex++ while !isFeedObjectEql(lazyLoadedItems[0], feedData[newItemsEndIndex]) &&
+                                      newItemsEndIndex < feedData.length &&
+                                      newItemsEndIndex < limit
+            if (newItemsEndIndex < limit)
+              childView.initialize(feedData)
             else
-              lazyLoadedItems.unshiftObjects(feedData.slice(0, index))
+              lazyLoadedItems.unshiftObjects(feedData.slice(0, newItemsEndIndex))
   ).observes('controller.feedData')
 
   actions:
@@ -71,9 +68,9 @@ RssReader.FeedView = Ember.View.extend(
   perPage: 15
   isLoadingMoreItems: false
 
-  initialize: ->
+  initialize: (feedData) ->
     Ember.run.next this, (->
-      @set('feedData', [])
+      @set('feedData', feedData)
       @set('lazyLoadedItems', [])
       @set('currentPage', 0)
     )
