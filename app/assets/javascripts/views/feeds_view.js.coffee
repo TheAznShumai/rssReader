@@ -1,4 +1,6 @@
 RssReader.FeedCollectionView = Ember.CollectionView.extend(
+  itemsUpdateLimit: 25
+
   init: ->
     Ember.run.next this, =>
       @get('controller').send('loadRssFeed')
@@ -8,8 +10,7 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
     viewIndex = @get('viewIndex')
     @send('hideAllChildren')
     if Ember.isBlank(viewIndex)
-      Ember.run.next this, =>
-        @pushObject(RssReader.FeedView.create(id: @get('controller.content.id'), lazyLoadedItems: []))
+      @pushObject(RssReader.FeedView.create(id: @get('controller.content.id'), lazyLoadedItems: []))
     else
       @send('showChildWithId', @get('controller.id'))
     @get('controller').send('loadRssFeed')
@@ -29,11 +30,23 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
     if not Ember.isBlank(feedData)
       childView = @get('childViews')[@get('viewIndex')]
       if not Ember.isBlank(childView)
-        childView.set('feedData', feedData)
-      else
-        if childView.feedData[0] != feedData[0]
-          debugger
-          #do some appending if needed (unshift)
+        if Ember.isBlank(childView.feedData)
+          childView.set('feedData', feedData)
+        else
+          lazyLoadedItems = childView.lazyLoadedItems
+          if !isFeedObjectEql(lazyLoadedItems[0], feedData[0])
+            index = 0
+            limit = @get('itemsUpdateLimit')
+            index++ while !isFeedObjectEql(lazyLoadedItems[0], feedData[index]) &&
+                          index < feedData.length &&
+                          index < limit
+            if (index < limit)
+              Ember.run.next this, (=>
+                childView.initialize()
+                childView.set('feedData', feedData)
+              )
+            else
+              lazyLoadedItems.unshiftObjects(feedData.slice(0, index))
   ).observes('controller.feedData')
 
   actions:
@@ -57,6 +70,13 @@ RssReader.FeedView = Ember.View.extend(
   currentPage: 0
   perPage: 15
   isLoadingMoreItems: false
+
+  initialize: ->
+    Ember.run.next this, (->
+      @set('feedData', [])
+      @set('lazyLoadedItems', [])
+      @set('currentPage', 0)
+    )
 
   isInitialized: (->
     return @get('currentPage') > 0
@@ -110,4 +130,9 @@ RssReader.FeedItemsView = Ember.View.extend(
       $(this).removeAttr("src")
       $(this).lazyload(effect: lazyLoaderEffect)
 )
+
+# TODO - find a home for this helper function
+
+isFeedObjectEql = (obj1, obj2) ->
+  return obj1.title == obj2.title && obj1.link == obj2.link && obj1.publishedDate == obj2.publishedDate
 
