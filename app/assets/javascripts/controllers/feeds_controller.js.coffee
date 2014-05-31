@@ -66,15 +66,16 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
     loadRssFeed: ->
       @set('isFeedLoading', true)
       @set('isFeedLoaded', false)
-      requestPromise = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
       feed_id = @get('id')
-      requestPromise.then ((data) =>
-      # Do nothing if we recieve a reponse that doesn't match the current feed id
+      loadFeedPromise = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
+      loadFeedPromise.then ((data) =>
+      # Do nothing if we recieve a response that doesn't match the current feed id route
+      # This solves the issue where the user moves too quickly before loadFeed finishes for a route
         if @get('id') == feed_id
           @set('feedData', data.responseData.feed.entries) if data.responseData != null
           @set('isFeedLoading', false)
           @set('isFeedLoaded', true)
-      ), (error) ->
+      ), (error) =>
         alert 'Error in the Request Promise'
 )
 
