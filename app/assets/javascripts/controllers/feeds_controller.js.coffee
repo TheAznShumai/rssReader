@@ -66,12 +66,16 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
     loadRssFeed: ->
       @set('isFeedLoading', true)
       @set('isFeedLoaded', false)
-      request = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
-      request.success (data) =>
-        if data.responseData != null
-          @set('feedData', data.responseData.feed.entries)
-        @set('isFeedLoading', false)
-        @set('isFeedLoaded', true)
+      requestPromise = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
+      feed_id = @get('id')
+      requestPromise.then ((data) =>
+      # Do nothing if we recieve a reponse that doesn't match the current feed id
+        if @get('id') == feed_id
+          @set('feedData', data.responseData.feed.entries) if data.responseData != null
+          @set('isFeedLoading', false)
+          @set('isFeedLoaded', true)
+      ), (error) ->
+        alert 'Error in the Request Promise'
 )
 
 #TODO - organize me please
@@ -82,7 +86,7 @@ loadFeed = (params) ->
     MaxItemsCount: 25
   , params)
 
-  return $.ajax(
+  return $.when($.ajax(
     url: "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=" + feed.MaxItemsCount + "&output=json&q=" + encodeURIComponent(feed.FeedUrl) + "&scoring=h" + "&hl=en&callback=?"
-    dataType: "json")
+    dataType: "json"))
 
