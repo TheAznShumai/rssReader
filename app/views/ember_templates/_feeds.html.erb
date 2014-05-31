@@ -66,6 +66,7 @@
   {{#if view}}
     {{#unless view.isFeedEmpty}}
       {{yield}}
+      <div id="scrollUp" style="display:none"></div>
     {{else}}
       {{#if controller}}
         {{#if isFeedLoaded}}

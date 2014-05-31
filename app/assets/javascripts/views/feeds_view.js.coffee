@@ -5,12 +5,14 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
     Ember.run.next this, =>
       @get('controller').send('loadRssFeed')
       @pushObject(RssReader.FeedView.create(id: @get('controller.content.id')))
+      $.scrollUp scrollImg: true
 
   idDidChange: (->
     viewIndex = @get('viewIndex')
     @send('hideAllChildren')
     if Ember.isBlank(viewIndex)
       @pushObject(RssReader.FeedView.create(id: @get('controller.content.id'), lazyLoadedItems: []))
+      $.scrollUp scrollImg: true
     else
       @send('showChildWithId', @get('controller.id'))
     @get('controller').send('loadRssFeed')
