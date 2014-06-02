@@ -72,7 +72,7 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
       # Do nothing if we recieve a response that doesn't match the current feed id route
       # This solves the issue where the transitions too quickly before loadFeed finishes for a route
         if @get('id') == feed_id
-          @set('feedData', data.responseData.feed.entries) if data.responseData != null
+          @set('feedData', cleanContent(data.responseData.feed.entries)) if data.responseData != null
           @set('isFeedLoading', false)
           @set('isFeedLoaded', true)
       ), (error) =>
@@ -80,6 +80,14 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
 )
 
 #TODO - organize me please
+
+cleanContent = (feed) ->
+  if Ember.isBlank($(feed[0]['content']).text())
+    return feed.map (item) ->
+      delete item["content"]
+      return item
+  else
+    return feed
 
 loadFeed = (params) ->
   feed = $.extend(
