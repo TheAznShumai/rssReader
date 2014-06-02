@@ -82,7 +82,8 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
 #TODO - organize me please
 
 cleanContent = (feed) ->
-  if Ember.isBlank($(feed[0]['content']).text())
+  # The append is for jquery to process feeds that start with text instead of a tag
+  if Ember.isBlank($($('<div></div>').append(feed[0]['content'])).text())
     return feed.map (item) ->
       delete item["content"]
       return item
