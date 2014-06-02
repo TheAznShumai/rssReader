@@ -43,7 +43,9 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
                                       newItemsEndIndex < feedData.length &&
                                       newItemsEndIndex < limit
             if newItemsEndIndex < limit
-              lazyLoadedItems.unshiftObjects(feedData.slice(0, newItemsEndIndex))
+              for item in feedData.slice(0, newItemsEndIndex)
+                item.slideDown = true
+                lazyLoadedItems.unshiftObject(item)
             else
               childView.initialize(feedData)
   ).observes('controller.feedData')
@@ -124,10 +126,14 @@ RssReader.FeedItemsView = Ember.View.extend(
   didInsertElement: ->
     imgSelector = ".itemContent img"
     lazyLoaderEffect = "fadeIn"
+    if @content.slideDown
+      @$().hide()
     @$(imgSelector).each (index) ->
       $(this).attr("data-original", $(this).attr("src"))
       $(this).removeAttr("src")
       $(this).lazyload(effect: lazyLoaderEffect)
+    if @content.slideDown
+      @$().slideDown(800)
 )
 
 # TODO - find a home for this helper function
