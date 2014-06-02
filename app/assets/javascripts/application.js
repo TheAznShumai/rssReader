@@ -15,6 +15,6 @@
 //= require bootstrap
 //= require moment
 //= require jquery.inview
-//= require jquery.lazyload
+//= require jquery.lazyloadxt.extra
 //= require jquery.scrollUp
 //= require_tree .

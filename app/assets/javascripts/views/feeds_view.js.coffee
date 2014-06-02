@@ -126,14 +126,13 @@ RssReader.LazyLoaderView = Ember.View.extend(
 RssReader.FeedItemsView = Ember.View.extend(
   templateName: "feed-items-template"
   didInsertElement: ->
-    imgSelector = ".itemContent img"
-    lazyLoaderEffect = "fadeIn"
+    contentSelector = ".itemContent"
     if @content.slideDown
       @$().hide()
-    @$(imgSelector).each (index) ->
-      $(this).attr("data-original", $(this).attr("src"))
-      $(this).removeAttr("src")
-      $(this).lazyload(effect: lazyLoaderEffect)
+    @$(contentSelector + " img,iframe,video").each (index) ->
+      $(this).attr("data-poster", $(this).attr("poster")).removeAttr("poster") if $(this).attr("poster")
+      $(this).attr("data-src", $(this).attr("src")).removeAttr("src")
+      $(this).lazyLoadXT()
     if @content.slideDown
       @$().slideDown(800)
 )
