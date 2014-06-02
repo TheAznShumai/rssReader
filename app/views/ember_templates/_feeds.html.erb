@@ -121,9 +121,11 @@
         </h4>
       </div>
     </div>
+    {{#if item.content}}
     <div {{bind-attr id="view.element.id" class=":panel-body :collapse isCollapsed::in"}}>
       <div class="itemContent">{{{item.content}}}</div>
     </div>
+    {{/if}}
   </div>
 </script>
 
