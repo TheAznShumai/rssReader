@@ -43,9 +43,11 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
                                       newItemsEndIndex < feedData.length &&
                                       newItemsEndIndex < limit
             if newItemsEndIndex < limit
-              for item in feedData.slice(0, newItemsEndIndex)
-                item.slideDown = true
-                lazyLoadedItems.unshiftObject(item)
+              lazyLoadedItems.unshiftObjects(
+                feedData.slice(0, newItemsEndIndex).map (item) ->
+                  item["slideDown"] = true
+                  return item
+              )
             else
               childView.initialize(feedData)
   ).observes('controller.feedData')
