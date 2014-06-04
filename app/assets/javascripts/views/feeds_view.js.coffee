@@ -100,9 +100,9 @@ RssReader.FeedView = Ember.View.extend(
         @set('isLoadingMoreItems', true)
         nextPageInitIndex = @get('currentPage') * @get('perPage')
         nextPageEndIndex = Math.min((nextPageInitIndex + @get('perPage')), @get('feedData').length)
+        @incrementProperty('currentPage')
         Ember.run.later this, (=>
           @lazyLoadedItems.pushObjects(@get('feedData').slice(nextPageInitIndex, nextPageEndIndex))
-          @incrementProperty('currentPage')
           @set('isLoadingMoreItems', false)
         ), 500
 )
