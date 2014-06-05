@@ -33,6 +33,7 @@ RssReader.FeedCollectionView = Ember.CollectionView.extend(
       childView = @get('childViews')[@get('viewIndex')]
       if not Ember.isBlank(childView)
         if Ember.isBlank(childView.feedData)
+          childView.set('lazyLoadedItems', [])
           childView.set('feedData', feedData)
         else
           lazyLoadedItems = childView.lazyLoadedItems
