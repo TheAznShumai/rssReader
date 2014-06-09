@@ -4,14 +4,16 @@ RssReader.FeedsRoute = Ember.Route.extend(
 )
 
 RssReader.FeedsShowRoute = Ember.Route.extend(
+  RssReader.TearDownOnTransition
   model: (params) ->
     @get('store').find('feed', params.feed_id)
-  RssReader.TearDownOnTransition
+  deactivate: ->
+    @get('controller.poller').stopPoll()
 )
 
 RssReader.FeedsNewRoute = Ember.Route.extend(
+  RssReader.TearDownOnTransition
   model: ->
     @get('store').createRecord('feed', {name: '', url: 'http://'})
-  RssReader.TearDownOnTransition
 )
 

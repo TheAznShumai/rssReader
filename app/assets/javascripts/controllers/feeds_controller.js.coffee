@@ -30,6 +30,23 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
   isFeedLoaded: false
   feedData: []
   maxItemsCount: 300
+  poller: null
+
+  pushRssData: ->
+    @set('isFeedLoading', true)
+    @set('isFeedLoaded', false)
+    feed_id = @get('id')
+    loadFeedPromise = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
+    loadFeedPromise.then ((data) =>
+    # Do nothing if we recieve a response that doesn't match the current feed id route
+    # This solves the issue where the transitions too quickly before loadFeed finishes for a route
+      if @get('id') == feed_id
+        content = if data.responseData != null then cleanContent(data.responseData.feed.entries) else []
+        @set('feedData', content)
+        @set('isFeedLoading', false)
+        @set('isFeedLoaded', true)
+    ), (error) =>
+      alert 'Error in the RssData'
 
   actions:
     edit: ->
@@ -64,19 +81,18 @@ RssReader.FeedsShowController = Ember.ObjectController.extend(
         @set('isEditing', false)
 
     loadRssFeed: ->
-      @set('isFeedLoading', true)
-      @set('isFeedLoaded', false)
-      feed_id = @get('id')
-      loadFeedPromise = loadFeed(FeedUrl: @get('url'), MaxItemsCount: @get('maxItemsCount'))
-      loadFeedPromise.then ((data) =>
-      # Do nothing if we recieve a response that doesn't match the current feed id route
-      # This solves the issue where the transitions too quickly before loadFeed finishes for a route
-        if @get('id') == feed_id
-          @set('feedData', cleanContent(data.responseData.feed.entries)) if data.responseData != null
-          @set('isFeedLoading', false)
-          @set('isFeedLoaded', true)
-      ), (error) =>
-        alert 'Error in the loadRssFeed action'
+      @pushRssData()
+      if !Ember.isBlank(@get('poller'))
+        @get('poller').stopPoll()
+        @get('poller').destroy()
+      @set('poller', RssReader.Poller.create(
+        onPoll: =>
+          @pushRssData() if !(@get('isFeedLoading') == false &&
+                              @get('isFeedLoaded') == true &&
+                              Ember.isEmpty(@get('feedData')))
+      ))
+      @get('poller').startPoll()
+
 )
 
 #TODO - organize me please
