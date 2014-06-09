@@ -29,7 +29,7 @@ RssReader.BootstrapAccordion = Ember.Mixin.create(
 )
 
 RssReader.Poller = Ember.Object.extend(
-  timer: 3600000 #-- Set to 1 hour as default --#
+  timer: 900000 #-- Set to 15 mins as default --#
 
   startPoll: ->
     @poller = Ember.run.later (=>
