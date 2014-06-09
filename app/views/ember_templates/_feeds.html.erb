@@ -114,9 +114,11 @@
           {{#link-to 'feeds.show' id}}
             <span {{action 'collapseToggle' view.element.id}}>{{{truncate item.title 90}}}</span>
           {{/link-to}}
-          <span class="pull-right">
-            <i>{{moment item.publishedDate}}</i>
-          </span>
+          {{#if item.publishedDate}}
+            <span class="pull-right">
+              <i>{{moment item.publishedDate}}</i>
+            </span>
+          {{/if}}
         </h4>
       </div>
     </div>

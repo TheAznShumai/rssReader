@@ -1,4 +1,7 @@
 Ember.Handlebars.registerBoundHelper("moment", (date) ->
-  return moment(date).format('llll')
+  formattedDate = ""
+  isoDate = new Date(date).toISOString()
+  formattedDate = moment(isoDate).format('llll') if typeof isoDate isnt "undefined"
+  return formattedDate
 )
 
