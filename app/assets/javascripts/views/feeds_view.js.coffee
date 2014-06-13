@@ -134,6 +134,8 @@ RssReader.FeedItemsView = Ember.View.extend(
       $(this).attr("data-poster", $(this).attr("poster")).removeAttr("poster") if $(this).attr("poster")
       $(this).attr("data-src", $(this).attr("src")).removeAttr("src")
       $(this).lazyLoadXT()
+    @$(contentSelector + " a").each (index) ->
+      $(this).attr("target", "_blank")
     if @content.slideDown
       @$().slideDown(800)
 )
